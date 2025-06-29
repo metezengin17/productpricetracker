@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d14644fd-223a-46c5-9837-976d2e706d1b" name="Changes" comment="ilk sürüm">
+    <list default="true" id="d14644fd-223a-46c5-9837-976d2e706d1b" name="Changes" comment="yeni sürüm">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -124,11 +124,20 @@
       <option name="project" value="LOCAL" />
       <updated>1748443222357</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="yeni sürüm">
+      <option name="closed" value="true" />
+      <created>1749053361439</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749053361439</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="ilk sürüm" />
-    <option name="LAST_COMMIT_MESSAGE" value="ilk sürüm" />
+    <MESSAGE value="yeni sürüm" />
+    <option name="LAST_COMMIT_MESSAGE" value="yeni sürüm" />
   </component>
 </project>
