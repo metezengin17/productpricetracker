@@ -14,30 +14,21 @@ def search_hepsiburada(search_text):
     driver.maximize_window()
     driver.get("https://www.hepsiburada.com")
 
-    # Çerezleri kabul et
 
 
-
-    time.sleep(5)
-    # Arama kutusunun kapsayıcı div'ine tıkla
-    # 1) İlk olarak arama çubuğunun kapsayıcı div'ine tıklayıp highlight açıyoruz
     clickable_div = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.initialComponent-hk7c_9tvgJ8ELzRuGJwC'))
     )
     driver.execute_script("arguments[0].click();", clickable_div)
     time.sleep(2)
-    # 2) Sonra highlight sonrası açılan aktif arama kutusunu buluyoruz
+
     active_input = WebDriverWait(driver, 20).until(
-        lambda d: [el for el in d.find_elements(By.CSS_SELECTOR, 'input[data-test-id="search-bar-input"]')
+        lambda d: [el for el in d.find_elements(By.CSS_SELECTOR, "input[class='searchBarContent-UfviL0lUukyp5yKZTi4k']")
                    if el.is_displayed() and el.is_enabled()][-1]
     )
 
-    # 3) Yazıyı bu aktif inputa gönderiyoruz
-    time.sleep(5)
     active_input.send_keys(search_text)
-    time.sleep(2)
     active_input.send_keys(Keys.ENTER)
-
 
     #return []
 
