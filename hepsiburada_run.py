@@ -1,5 +1,3 @@
-from time import sleep
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -16,26 +14,30 @@ def search_hepsiburada(search_text):
     driver.maximize_window()
     driver.get("https://www.hepsiburada.com")
 
-    try:
-        cookie_accept_btn = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.ID, "onetrust-accept-btn-handler"))
-        )
-        cookie_accept_btn.click()
-    except:
-        print("Çerez kutusu bulunamadı ya da zaten kapalı.")
-
-    time.sleep(1)
-    # Arama kutusunu önce bekle, sonra yeniden referans al
-    search_input = driver.find_element(By.CSS_SELECTOR, "input[data-test-id='search-bar-input']")
-    search_input.click()
-    search_input.send_keys(search_text)
+    # Çerezleri kabul et
 
 
-    time.sleep(1)
-    search_input.send_keys(search_text)
-    time.sleep(1)
-    search_input.send_keys(Keys.ENTER)
 
-    # Devamında ürünleri çekebilirsin
-    time.sleep(3)
-    return []
+    time.sleep(5)
+    # Arama kutusunun kapsayıcı div'ine tıkla
+    # 1) İlk olarak arama çubuğunun kapsayıcı div'ine tıklayıp highlight açıyoruz
+    clickable_div = WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, 'div.initialComponent-hk7c_9tvgJ8ELzRuGJwC'))
+    )
+    driver.execute_script("arguments[0].click();", clickable_div)
+    time.sleep(2)
+    # 2) Sonra highlight sonrası açılan aktif arama kutusunu buluyoruz
+    active_input = WebDriverWait(driver, 20).until(
+        lambda d: [el for el in d.find_elements(By.CSS_SELECTOR, 'input[data-test-id="search-bar-input"]')
+                   if el.is_displayed() and el.is_enabled()][-1]
+    )
+
+    # 3) Yazıyı bu aktif inputa gönderiyoruz
+    time.sleep(5)
+    active_input.send_keys(search_text)
+    time.sleep(2)
+    active_input.send_keys(Keys.ENTER)
+
+
+    #return []
+

@@ -27,17 +27,17 @@ def search_trendyol(search_text):
     search_icon = driver.find_element(By.CSS_SELECTOR, "i[data-testid='search-icon']")
     search_icon.click()
 
-    # Burada filtreleme, sıralama vs işlemler olabilir
+
     time.sleep(2)  # örnek bekleme
 
-    # Ürünleri çekip dönebilirsin
+
     products_container = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, '//*[@id="search-app"]/div/div/div/div[2]/div[4]/div[1]/div'))
     )
     product_cards = products_container.find_elements(By.CLASS_NAME, 'p-card-wrppr')
 
     results = []
-    for product in product_cards[:5]:  # İlk 5 ürünü örnek alalım
+    for product in product_cards[:5]:
         try:
             name = product.find_element(By.CLASS_NAME, 'prdct-desc-cntnr').text
             try:
