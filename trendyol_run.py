@@ -4,14 +4,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
-import time
 
 def search_trendyol(search_text):
     options = webdriver.ChromeOptions()
     options.add_experimental_option("detach", True)
     driver = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
     driver.maximize_window()
-    driver.get("http://trendyol.com")
+    driver.get("https://www.trendyol.com")
+
 
     try:
         close_button = WebDriverWait(driver, 10).until(
@@ -21,34 +21,46 @@ def search_trendyol(search_text):
     except:
         pass
 
-    search_input = driver.find_element(By.CSS_SELECTOR, "input[data-testid='suggestion']")
+
+    search_input = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, "input[data-testid='suggestion']"))
+    )
     search_input.send_keys(search_text)
 
     search_icon = driver.find_element(By.CSS_SELECTOR, "i[data-testid='search-icon']")
     search_icon.click()
 
 
-    time.sleep(2)  # örnek bekleme
-
-    products_container = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, '//*[@id="search-app"]/div/div/div/div[2]/div[4]/div[1]/div'))
+    dropdown_menu = WebDriverWait(driver, 15).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "search-sort-container"))
     )
-    product_cards = products_container.find_elements(By.CLASS_NAME, 'p-card-wrppr')
+    dropdown_menu.click()
+
+    lowest_price_option = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//span[text()='En düşük fiyat']"))
+    )
+    lowest_price_option.click()
+
+
+    WebDriverWait(driver, 15).until(
+        EC.staleness_of(driver.find_element(By.CLASS_NAME, "p-card-wrppr"))
+    )
+
+
+    first_product = WebDriverWait(driver, 15).until(
+        EC.presence_of_all_elements_located((By.CLASS_NAME, "p-card-wrppr"))
+    )[0]
 
     results = []
-    if product_cards:
-        product = product_cards[0]
+    try:
+        name = "Trendyol " + first_product.find_element(By.CLASS_NAME, 'prdct-desc-cntnr').text
         try:
-            name = "Trendyol " + product.find_element(By.CLASS_NAME, 'prdct-desc-cntnr').text
-            try:
-                price = product.find_element(By.CSS_SELECTOR,
-                                             'div.basket-price-original-wrapper > div.price-item.basket-price-original').text
-            except:
-                price = product.find_element(By.CLASS_NAME, 'price-information').text
-            results.append({"name": name, "price": price})
+            price = first_product.find_element(By.CLASS_NAME, 'prc-box-dscntd').text
         except:
-            pass
+            price = first_product.find_element(By.CLASS_NAME, 'price-information').text
+        results.append({"name": name, "price": price})
+    except:
+        pass
 
-    #driver.quit()
+    # driver.quit()
     return results
-

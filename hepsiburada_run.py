@@ -32,7 +32,7 @@ def search_hepsiburada(search_text):
 
     results = []
 
-    time.sleep(3)
+    time.sleep(5)
 
     # Sıralama menüsünü aç
     dropdown_menu = WebDriverWait(driver, 15).until(
@@ -40,14 +40,14 @@ def search_hepsiburada(search_text):
     )
     dropdown_menu.click()
 
-    time.sleep(2)
+    time.sleep(5)
 
     lowest_price_option = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable(
-            (By.XPATH, '//div[contains(@class, "horizontalSortingBar-") and text()="En düşük fiyat"]'))
+        EC.element_to_be_clickable((By.CSS_SELECTOR, '.checkbox-LWVCcSZX0pOuhM2w4YoN.horizontalSortingBar-bZjeS6CYjBQNaxq_HmsD'))
     )
     lowest_price_option.click()
 
+    driver.refresh()
 
     container = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, "1"))
