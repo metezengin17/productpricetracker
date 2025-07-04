@@ -30,23 +30,24 @@ def search_trendyol(search_text):
 
     time.sleep(2)  # örnek bekleme
 
-
     products_container = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, '//*[@id="search-app"]/div/div/div/div[2]/div[4]/div[1]/div'))
     )
     product_cards = products_container.find_elements(By.CLASS_NAME, 'p-card-wrppr')
 
     results = []
-    for product in product_cards[:5]:
+    if product_cards:
+        product = product_cards[0]
         try:
-            name = product.find_element(By.CLASS_NAME, 'prdct-desc-cntnr').text
+            name = "Trendyol " + product.find_element(By.CLASS_NAME, 'prdct-desc-cntnr').text
             try:
-                price = product.find_element(By.CSS_SELECTOR, 'div.basket-price-original-wrapper > div.price-item.basket-price-original').text
+                price = product.find_element(By.CSS_SELECTOR,
+                                             'div.basket-price-original-wrapper > div.price-item.basket-price-original').text
             except:
                 price = product.find_element(By.CLASS_NAME, 'price-information').text
             results.append({"name": name, "price": price})
         except:
-            continue
+            pass
 
     #driver.quit()
     return results

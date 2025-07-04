@@ -30,5 +30,42 @@ def search_hepsiburada(search_text):
     active_input.send_keys(search_text)
     active_input.send_keys(Keys.ENTER)
 
-    #return []
+    results = []
+
+    time.sleep(3)
+
+    # Sıralama menüsünü aç
+    dropdown_menu = WebDriverWait(driver, 15).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "horizontalSortingBar-o9D1EdfJoGSlzbV8u96z"))
+    )
+    dropdown_menu.click()
+
+    time.sleep(2)
+
+    lowest_price_option = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable(
+            (By.XPATH, '//div[contains(@class, "horizontalSortingBar-") and text()="En düşük fiyat"]'))
+    )
+    lowest_price_option.click()
+
+
+    container = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "1"))
+    )
+
+    listed_products = container.find_elements(By.CLASS_NAME, "productCard-module_productCardRoot__Yf7qs")
+
+    first_product = listed_products[0]  # İlk ürün
+
+    try:
+        name = "Hepsiburada " + first_product.find_element(By.CLASS_NAME, 'title-module_titleText__8FlNQ').text
+        price = first_product.find_element(By.CLASS_NAME, "price-module_finalPrice__LtjvY").text
+        print(f"Ürün: {name}, Fiyat: {price}")
+    except Exception as e:
+        print(f"Hata: {e}")
+
+    print(results)
+    return results
+
+
 
