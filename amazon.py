@@ -83,4 +83,5 @@ def search_amazon(search_text):
     except Exception as e:
         print(f"Hata: {e}")
 
+    driver.quit()
     return results

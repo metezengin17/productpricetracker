@@ -62,5 +62,6 @@ def search_trendyol(search_text):
     except:
         pass
 
-    # driver.quit()
+
     return results
+    driver.quit()

@@ -68,6 +68,7 @@ def search_hepsiburada(search_text):
         pass
 
     #print(results)
+    driver.quit()
     return results
 
 
