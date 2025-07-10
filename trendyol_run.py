@@ -53,7 +53,7 @@ def search_trendyol(search_text):
 
     results = []
     try:
-        name = "Trendyol " + first_product.find_element(By.CLASS_NAME, 'prdct-desc-cntnr').text
+        name = "Trendyol " + first_product.find_element(By.CLASS_NAME, 'prdct-desc-cntnr').text.replace("\n", " ")
         try:
             price = first_product.find_element(By.CLASS_NAME, 'prc-box-dscntd').text
         except:
